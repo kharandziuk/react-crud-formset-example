@@ -1,12 +1,13 @@
 import { createStore, thunk, action, computed } from "easy-peasy";
 import axios from "axios";
 import _ from "lodash";
+import getPhoto from "./getPhoto.js";
 
 const setupStore = (service) => {
   const people = {
     items: [
-      { firstName: "Max", lastName: "Kharandziuk" },
-      { firstName: "Other", lastName: "Man" },
+      { firstName: "Max", lastName: "Kharandziuk", photo: getPhoto() },
+      { firstName: "Other", lastName: "Man", photo: getPhoto() },
     ],
     selected: 0,
     selectedItem: computed([(state) => state.items[state.selected]], (x) => x),

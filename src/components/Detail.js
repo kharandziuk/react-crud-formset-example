@@ -4,10 +4,12 @@ import { Form, Field } from "react-final-form";
 import * as mui from "@material-ui/core";
 import _ from "lodash";
 import Joi from "joi";
+import getPhoto from "../getPhoto";
 
 const schema = Joi.object({
   firstName: Joi.string().alphanum().min(3).max(30).required(),
   lastName: Joi.string().alphanum().min(3).max(30).required(),
+  photo: Joi.string(),
 });
 
 const validate = (values) => {
@@ -20,6 +22,21 @@ const validate = (values) => {
     result[err.path] = err.message.replace(`"${err.path}"`, "");
   }
   return result;
+};
+
+const fileChange = (onChange) => {
+  return async (e) => {
+    let file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    const data = await new Promise((resolve) => {
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsBinaryString(file);
+    });
+    onChange(btoa(data));
+  };
 };
 
 const PersonForm = ({ initialValues, onSubmit }) => {
@@ -54,6 +71,20 @@ const PersonForm = ({ initialValues, onSubmit }) => {
                   helperText={meta.error}
                 />
               )}
+            </Field>
+            <Field name="photo">
+              {({ input, meta }) => {
+                return (
+                  <mui.Button variant="contained" component="label">
+                    <img src={`data:image/jpeg;base64,${input.value}`} />
+                    <input
+                      type="file"
+                      hidden
+                      onChange={fileChange(input.onChange)}
+                    />
+                  </mui.Button>
+                );
+              }}
             </Field>
           </div>
         </form>
