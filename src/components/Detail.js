@@ -3,39 +3,24 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { Form, Field } from "react-final-form";
 import * as mui from "@material-ui/core";
 import _ from "lodash";
+import Joi from "joi";
 
-const onSubmit = (values) => {
-  console.log(JSON.stringify(values, 0, 2));
-};
+const schema = Joi.object({
+  firstName: Joi.string().alphanum().min(3).max(30).required(),
+  lastName: Joi.string().alphanum().min(3).max(30).required(),
+});
 
 const validate = (values) => {
-  const errors = {};
-  if (!values.firstName) {
-    errors.firstName = "Required";
+  const error = schema.validate(values, { abortEarly: false }).error;
+  if (_.isUndefined(error)) {
+    return;
   }
-  if (!values.lastName) {
-    errors.lastName = "Required";
+  const result = {};
+  for (let err of error.details) {
+    result[err.path] = err.message.replace(`"${err.path}"`, "");
   }
-  return errors;
+  return result;
 };
-//<form className={classes.root} noValidate autoComplete="off">
-//  <div>
-//    <mui.TextField
-//      required
-//      id="filled-required"
-//      label="First Name"
-//      value={person.firstName}
-//      variant="filled"
-//    />
-//    <mui.TextField
-//      required
-//      id="filled-required"
-//      label="Last Name"
-//      value={person.lastName}
-//      variant="filled"
-//    />
-//  </div>
-//</form>
 
 const PersonForm = ({ initialValues, onSubmit }) => {
   const classes = useStyles();

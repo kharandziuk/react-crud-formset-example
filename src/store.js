@@ -1,5 +1,6 @@
 import { createStore, thunk, action, computed } from "easy-peasy";
 import axios from "axios";
+import _ from "lodash";
 
 const setupStore = (service) => {
   const people = {
@@ -13,7 +14,8 @@ const setupStore = (service) => {
       state.selected = payload;
     }),
     deleteItem: action((state, payload) => {
-      state.items.slice(payload, 1);
+      state.items = _.reject(state.items, (x, i) => i === payload);
+      return state;
     }),
     changeItem: action((state, payload) => {
       state.items[state.selected] = payload;
