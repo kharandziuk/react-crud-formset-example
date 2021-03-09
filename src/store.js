@@ -15,6 +15,9 @@ const setupStore = (service) => {
     deleteItem: action((state, payload) => {
       state.items.slice(payload, 1);
     }),
+    changeItem: action((state, payload) => {
+      state.items[state.selected] = payload;
+    }),
   };
 
   const model = { people };

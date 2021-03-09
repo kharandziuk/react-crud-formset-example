@@ -2,23 +2,19 @@ import useStyles from "../useStyles";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Form, Field } from "react-final-form";
 import * as mui from "@material-ui/core";
+import _ from "lodash";
 
 const onSubmit = (values) => {
-  window.alert(JSON.stringify(values, 0, 2));
+  console.log(JSON.stringify(values, 0, 2));
 };
 
 const validate = (values) => {
   const errors = {};
-  if (!values.username) {
-    errors.username = "Required";
+  if (!values.firstName) {
+    errors.firstName = "Required";
   }
-  if (!values.password) {
-    errors.password = "Required";
-  }
-  if (!values.confirm) {
-    errors.confirm = "Required";
-  } else if (values.confirm !== values.password) {
-    errors.confirm = "Must match";
+  if (!values.lastName) {
+    errors.lastName = "Required";
   }
   return errors;
 };
@@ -41,60 +37,53 @@ const validate = (values) => {
 //  </div>
 //</form>
 
-const MyForm = () => (
-  <Form
-    onSubmit={onSubmit}
-    validate={validate}
-    render={({ handleSubmit }) => (
-      <form onSubmit={handleSubmit}>
-        <h2>Simple Default Input</h2>
-        <div>
-          <label>First Name</label>
-          <Field name="firstName" component="input" placeholder="First Name" />
-        </div>
-
-        <h2>An Arbitrary Reusable Input Component</h2>
-        <div>
-          <label>Interests</label>
-          <Field name="interests" component="input" />
-        </div>
-
-        <h2>Render Function</h2>
-        <Field
-          name="bio"
-          render={({ input, meta }) => (
-            <div>
-              <label>Bio</label>
-              <textarea {...input} />
-              {meta.touched && meta.error && <span>{meta.error}</span>}
-            </div>
-          )}
-        />
-
-        <h2>Render Function as Children</h2>
-        <Field name="phone">
-          {({ input, meta }) => (
-            <div>
-              <label>Phone</label>
-              <input type="text" {...input} placeholder="Phone" />
-              {meta.touched && meta.error && <span>{meta.error}</span>}
-            </div>
-          )}
-        </Field>
-
-        <button type="submit">Submit</button>
-      </form>
-    )}
-  />
-);
-export default function Detail() {
+const PersonForm = ({ initialValues, onSubmit }) => {
   const classes = useStyles();
 
+  return (
+    <Form
+      onSubmit={onSubmit}
+      validate={validate}
+      initialValues={initialValues}
+      render={({ handleSubmit }) => (
+        <form className={classes.root} onChange={handleSubmit}>
+          <div>
+            <Field name="firstName">
+              {({ input, meta }) => (
+                <mui.TextField
+                  {...input}
+                  label="First Name"
+                  variant="filled"
+                  error={_.isString(meta.error)}
+                  helperText={meta.error}
+                />
+              )}
+            </Field>
+            <Field name="lastName">
+              {({ input, meta }) => (
+                <mui.TextField
+                  {...input}
+                  label="Last Name"
+                  variant="filled"
+                  error={_.isString(meta.error)}
+                  helperText={meta.error}
+                />
+              )}
+            </Field>
+          </div>
+        </form>
+      )}
+    />
+  );
+};
+
+export default function Detail() {
   const person = useStoreState((store) => store.people.selectedItem);
+  const changeItem = useStoreActions((store) => store.people.changeItem);
 
   return (
     <mui.Grid item xs={12} md={9}>
-      <MyForm />
+      <PersonForm initialValues={person} onSubmit={changeItem} />
     </mui.Grid>
   );
 }
