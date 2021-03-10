@@ -24,7 +24,6 @@ const validate = (values) => {
 };
 
 const fileChange = async (e, onChange) => {
-  console.log(e);
   let file = e.target.files[0];
   if (!file) {
     return;
@@ -52,7 +51,10 @@ const PersonForm = ({ initialValues, onSubmit }) => {
               {({ input, meta }) => {
                 return (
                   <mui.Button variant="contained" component="label">
-                    <img src={`data:image/jpeg;base64,${input.value}`} />
+                    <img
+                      src={`data:image/jpeg;base64,${input.value}`}
+                      alt="Avatar"
+                    />
                     <input
                       type="file"
                       onChange={(e) => {

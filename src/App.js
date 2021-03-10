@@ -1,14 +1,5 @@
 import "./App.css";
-import {
-  useParams,
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { BrowserRouter as Router } from "react-router-dom";
 import Main from "./pages/Main.js";
 
 export default function App() {

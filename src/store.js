@@ -1,12 +1,13 @@
-import { createStore, thunk, action, computed } from "easy-peasy";
-import axios from "axios";
+import { createStore, action, computed } from "easy-peasy";
 import _ from "lodash";
-import getPhoto from "./getPhoto.js";
+import getPhotoByOleg from "./getPhotoByOleg.js";
+import getPhotByMax from "./getPhotoByMax.js";
 
 const setupStore = (service) => {
   const people = {
     items: [
-      { firstName: "Max", lastName: "Kharandziuk", photo: null },
+      { firstName: "Max", lastName: "Kharandziuk", photo: getPhotByMax() },
+      { firstName: "Oleg", lastName: "Zayarny", photo: getPhotoByOleg() },
       { firstName: "Other", lastName: "Man", photo: null },
     ],
     selected: 0,
@@ -20,7 +21,6 @@ const setupStore = (service) => {
       return Object.assign({}, state);
     }),
     changeItem: action((state, payload) => {
-      const items = state.items;
       return {
         ...state,
         items: state.items.map((el, i) =>
