@@ -2,14 +2,17 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import * as mui from "@material-ui/core";
 import useStyles from "../useStyles";
 import * as icons from "@material-ui/icons";
+import _ from "lodash";
 
 export default function List() {
   const people = useStoreState((store) => store.people.items);
   const selected = useStoreState((store) => store.people.selected);
+
   const setActive = useStoreActions((store) => store.people.setActive);
   const deleteItem = useStoreActions((store) => store.people.deleteItem);
-  const classes = useStyles();
 
+  const classes = useStyles();
+  console.log(people);
   return (
     <mui.Grid item xs={12} md={3}>
       <mui.Typography variant="h6" className={classes.title}>
@@ -25,9 +28,13 @@ export default function List() {
               onClick={() => setActive(i)}
             >
               <mui.ListItemAvatar>
-                <mui.Avatar>
-                  <icons.Face />
-                </mui.Avatar>
+                {_.isNull(x.photo) ? (
+                  <mui.Avatar>
+                    <icons.Face />
+                  </mui.Avatar>
+                ) : (
+                  <mui.Avatar src={`data:image/jpeg;base64,${x.photo}`} />
+                )}
               </mui.ListItemAvatar>
               <mui.ListItemText primary={`${x.firstName} ${x.lastName}`} />
               <mui.ListItemSecondaryAction>
