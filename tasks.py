@@ -54,7 +54,7 @@ def storybook_test(c):
     )
     run(
         c,
-        f'yarn build-storybook -o {build_folder.absolute()}'
+        f'yarn build-storybook --quiet -o {build_folder.absolute()}'
     )
     run(c, 'ls')
     run(
@@ -72,7 +72,11 @@ def deploy_storybook(c):
     )
     run(
         c,
-        f'yarn build-storybook -o {build_folder.absolute()}'
+        'yarn build'
+    )
+    run(
+        c,
+        f'yarn build-storybook --quiet -o {build_folder.absolute()}'
     )
     run(c, 'ls')
     run(
