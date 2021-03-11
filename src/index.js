@@ -3,8 +3,21 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import store from "./store";
+import { setupStore } from "./store";
 import { StoreProvider } from "easy-peasy";
+
+import getPhotoByOleg from "./getPhotoByOleg.js";
+import getPhotByMax from "./getPhotoByMax.js";
+
+const store = setupStore();
+[
+  { firstName: "Max", lastName: "Kharandziuk", photo: getPhotByMax() },
+  { firstName: "Oleg", lastName: "Zayarny", photo: getPhotoByOleg() },
+  { firstName: "Other", lastName: "Man", photo: null },
+].forEach((person) => {
+  store.getActions().people.addPerson(person);
+});
+store.getActions().people.setActive(0);
 
 ReactDOM.render(
   <React.StrictMode>

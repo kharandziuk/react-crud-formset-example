@@ -1,14 +1,14 @@
 import useStyles from "../useStyles";
-import { useStoreState, useStoreActions } from "easy-peasy";
 import { Form, Field } from "react-final-form";
 import * as mui from "@material-ui/core";
+import * as icons from "@material-ui/icons";
 import _ from "lodash";
 import Joi from "joi";
 
 const schema = Joi.object({
   firstName: Joi.string().alphanum().min(3).max(30).required(),
   lastName: Joi.string().alphanum().min(3).max(30).required(),
-  photo: Joi.string().base64(),
+  photo: Joi.string().base64().allow(""),
 });
 
 const validate = (values) => {
@@ -63,6 +63,7 @@ const PersonForm = ({ initialValues, onSubmit }) => {
                       hidden
                     />
                     <input {...input} readOnly hidden />
+                    <button>remove photo</button>
                   </mui.Button>
                 );
               }}
@@ -91,9 +92,15 @@ const PersonForm = ({ initialValues, onSubmit }) => {
                 />
               )}
             </Field>
-            <button type="submit" disabled={submitting || pristine}>
+            <mui.Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={submitting || pristine}
+              startIcon={<icons.Save />}
+            >
               Submit
-            </button>
+            </mui.Button>
           </div>
         </form>
       )}
@@ -101,13 +108,16 @@ const PersonForm = ({ initialValues, onSubmit }) => {
   );
 };
 
-export default function Detail() {
-  const person = useStoreState((store) => store.people.selectedItem);
-  const changeItem = useStoreActions((store) => store.people.changeItem);
-
+export default function Detail({ data, actions }) {
   return (
     <mui.Grid item xs={12} md={9}>
-      <PersonForm initialValues={person} onSubmit={changeItem} />
+      <PersonForm
+        initialValues={data.person}
+        onSubmit={(values) => {
+          console.log("change", values);
+          actions.changeItem(values);
+        }}
+      />
     </mui.Grid>
   );
 }

@@ -4,28 +4,46 @@ import useStyles from "../useStyles";
 import * as icons from "@material-ui/icons";
 import _ from "lodash";
 
-export default function List() {
-  const people = useStoreState((store) => store.people.items);
-  const selected = useStoreState((store) => store.people.selected);
-
-  const setActive = useStoreActions((store) => store.people.setActive);
-  const deleteItem = useStoreActions((store) => store.people.deleteItem);
-
+export default function List({ data, actions }) {
   const classes = useStyles();
-  console.log(people);
+
   return (
     <mui.Grid item xs={12} md={3}>
       <mui.Typography variant="h6" className={classes.title}>
         People
       </mui.Typography>
       <div className={classes.demo}>
+        <mui.Button
+          variant="contained"
+          color="secondary"
+          disabled={data.isAdding}
+          startIcon={<icons.Add />}
+          onClick={() => actions.startAdding()}
+        >
+          Add
+        </mui.Button>
         <mui.List dense>
-          {people.map((x, i) => (
+          {data.isAdding ? (
+            <mui.ListItem button selected>
+              <mui.ListItemAvatar>
+                <mui.Avatar>
+                  <icons.Face />
+                </mui.Avatar>
+              </mui.ListItemAvatar>
+              <mui.ListItemText primary={"New Entry"} />
+              <mui.ListItemSecondaryAction>
+                <mui.IconButton edge="end" aria-label="cancel">
+                  <icons.Cancel />
+                </mui.IconButton>
+              </mui.ListItemSecondaryAction>
+            </mui.ListItem>
+          ) : null}
+          {data.people.map((x, i) => (
             <mui.ListItem
               button
-              selected={i === selected}
+              selected={i === data.selected}
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => actions.setActive(i)}
             >
               <mui.ListItemAvatar>
                 {_.isNull(x.photo) ? (
@@ -41,7 +59,7 @@ export default function List() {
                 <mui.IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => deleteItem(i)}
+                  onClick={() => actions.deleteItem(i)}
                 >
                   <icons.Delete />
                 </mui.IconButton>
