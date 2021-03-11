@@ -8,12 +8,14 @@ import { personSchema } from "../models";
 const validate = (schema, values) => {
   const error = schema.validate(values, { abortEarly: false }).error;
   if (_.isUndefined(error)) {
+    console.log("form valid");
     return;
   }
   const result = {};
   for (let err of error.details) {
     result[err.path] = err.message.replace(`"${err.path}"`, "");
   }
+  console.log("form invalid", result);
   return result;
 };
 

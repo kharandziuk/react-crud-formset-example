@@ -26,8 +26,8 @@ const getPerson = (values = {}, skipValidation = false) => {
     firstName: "",
     lastName: "",
     photo: "",
-    phohe: "",
-    birth_year: null,
+    phone: "",
+    birthYear: null,
     email: "",
   });
   if (!skipValidation) {
