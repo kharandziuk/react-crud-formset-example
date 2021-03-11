@@ -1,5 +1,4 @@
 import { createStore } from "easy-peasy";
-import _ from "lodash";
 import { people } from "./models";
 
 const setupStore = () => {

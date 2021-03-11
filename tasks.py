@@ -54,10 +54,33 @@ def storybook_test(c):
     )
     run(
         c,
-        f'yarn build-storybook -o {build_folder.absolute()}'
+        f'yarn build-storybook --quiet -o {build_folder.absolute()}'
     )
     run(c, 'ls')
     run(
         c,
         f'yarn storybook-puppeteer --serveDirectory {build_folder.absolute()}'
+    )
+
+
+@task
+def deploy_storybook(c):
+    build_folder = CUR_DIR / 'storybook-static'
+    run(
+        c,
+        'yarn'
+    )
+    run(
+        c,
+        'yarn build'
+    )
+    run(
+        c,
+        f'yarn build-storybook --quiet -o {build_folder.absolute()}'
+    )
+    run(c, 'ls')
+    run(
+        c,
+        "aws s3 cp --recursive "
+        f"{build_folder.absolute()} s3://react-crud-formset-example-storybook"
     )
