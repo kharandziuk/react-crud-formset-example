@@ -7385,6 +7385,11 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
+google-libphonenumber@3.2.17:
+  version "3.2.17"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.17.tgz#6146ca39da98f9ddd20851b1ced2fb7b5b3f543d"
+  integrity sha512-T1fBQ3ujlpo4VUe0palZVHxBkY1zsfCShkS3l1rNq/d5C6C1SIijo8aXzgpJeGQFB8Bk+C36o6jhLl05NtfQ3w==
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
@@ -9039,6 +9044,13 @@ jest@26.6.0:
     "@jest/core" "^26.6.0"
     import-local "^3.0.2"
     jest-cli "^26.6.0"
+
+joi-phone-number@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/joi-phone-number/-/joi-phone-number-5.0.1.tgz#96aaeb9b1e890c41a8ce876daa1d20b9d586c92d"
+  integrity sha512-gVzKD2WETDxAONmdt79tF9LHEfr2M6AtSyZ8/FnkQkF9qln6PF5wuzjrr9555uB7R+LbAQdFNgYN2UETzPn5ew==
+  dependencies:
+    google-libphonenumber "3.2.17"
 
 joi@^17.4.0:
   version "17.4.0"
@@ -13300,6 +13312,11 @@ store2@^2.7.1:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.12.0.tgz#e1f1b7e1a59b6083b2596a8d067f6ee88fd4d3cf"
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
+
+storybook-puppeteer@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/storybook-puppeteer/-/storybook-puppeteer-1.8.0.tgz#294b58505ba62cd60be9367181368b9a8000666a"
+  integrity sha512-nQafugarz9WgrTbbi0axPMBw28q6ctlJxwpF5SN/m7DO2ZdmpjjNghZbR27m62qD/tKffIOkd0IOwqG7IhTMpw==
 
 stream-browserify@^2.0.1:
   version "2.0.2"

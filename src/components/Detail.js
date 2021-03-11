@@ -3,15 +3,9 @@ import { Form, Field } from "react-final-form";
 import * as mui from "@material-ui/core";
 import * as icons from "@material-ui/icons";
 import _ from "lodash";
-import Joi from "joi";
+import { personSchema } from "../models";
 
-const schema = Joi.object({
-  firstName: Joi.string().alphanum().min(3).max(30).required(),
-  lastName: Joi.string().alphanum().min(3).max(30).required(),
-  photo: Joi.string().base64().allow(""),
-});
-
-const validate = (values) => {
+const validate = (schema, values) => {
   const error = schema.validate(values, { abortEarly: false }).error;
   if (_.isUndefined(error)) {
     return;
@@ -42,7 +36,7 @@ const PersonForm = ({ initialValues, onSubmit }) => {
   return (
     <Form
       onSubmit={onSubmit}
-      validate={validate}
+      validate={(v) => validate(personSchema, v)}
       initialValues={initialValues}
       render={({ handleSubmit, submitting, pristine }) => (
         <form className={classes.root} onSubmit={handleSubmit}>
@@ -63,7 +57,9 @@ const PersonForm = ({ initialValues, onSubmit }) => {
                       hidden
                     />
                     <input {...input} readOnly hidden />
-                    <button>remove photo</button>
+                    <button onClick={() => input.onChange("")}>
+                      remove photo
+                    </button>
                   </mui.Button>
                 );
               }}
@@ -92,15 +88,50 @@ const PersonForm = ({ initialValues, onSubmit }) => {
                 />
               )}
             </Field>
-            <mui.Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={submitting || pristine}
-              startIcon={<icons.Save />}
-            >
-              Submit
-            </mui.Button>
+            <Field name="birthYear">
+              {({ input, meta }) => (
+                <mui.TextField
+                  {...input}
+                  label="Birth Year"
+                  variant="filled"
+                  error={_.isString(meta.error)}
+                  helperText={meta.error}
+                />
+              )}
+            </Field>
+            <Field name="phone">
+              {({ input, meta }) => (
+                <mui.TextField
+                  {...input}
+                  label="phone"
+                  variant="filled"
+                  error={_.isString(meta.error)}
+                  helperText={meta.error}
+                />
+              )}
+            </Field>
+            <Field name="email">
+              {({ input, meta }) => (
+                <mui.TextField
+                  {...input}
+                  label="Email"
+                  variant="filled"
+                  error={_.isString(meta.error)}
+                  helperText={meta.error}
+                />
+              )}
+            </Field>
+            <mui.Box>
+              <mui.Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={submitting || pristine}
+                startIcon={<icons.Save />}
+              >
+                Submit
+              </mui.Button>
+            </mui.Box>
           </div>
         </form>
       )}
@@ -111,13 +142,7 @@ const PersonForm = ({ initialValues, onSubmit }) => {
 export default function Detail({ data, actions }) {
   return (
     <mui.Grid item xs={12} md={9}>
-      <PersonForm
-        initialValues={data.person}
-        onSubmit={(values) => {
-          console.log("change", values);
-          actions.changeItem(values);
-        }}
-      />
+      <PersonForm initialValues={data.person} onSubmit={actions.changeItem} />
     </mui.Grid>
   );
 }

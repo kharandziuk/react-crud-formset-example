@@ -2,6 +2,41 @@ import _ from "lodash";
 
 import { createStore, action, computed } from "easy-peasy";
 
+import Joi from "joi";
+import joiPhoneNumber from "joi-phone-number";
+
+const CJoi = Joi.extend(joiPhoneNumber);
+
+const personSchema = Joi.object({
+  firstName: Joi.string().alphanum().min(3).max(30).required(),
+  lastName: Joi.string().alphanum().min(3).max(30).required(),
+  phone: CJoi.string().phoneNumber(),
+
+  birthYear: Joi.number().integer().min(1900).max(2013),
+
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
+  photo: Joi.string().base64().allow(""),
+});
+
+const getPerson = (values = {}, skipValidation = false) => {
+  const result = Object.assign(values, {
+    firstName: "",
+    lastName: "",
+    photo: "",
+    phohe: "",
+    birth_year: null,
+    email: "",
+    birth_year: "",
+  });
+  if (!skipValidation) {
+    personSchema.assert(result);
+  }
+  return result;
+};
+
 const people = {
   items: [],
   selected: 0,
@@ -43,13 +78,9 @@ const people = {
     return {
       ...state,
       selected: null,
-      newPerson: {
-        firstName: "",
-        lastName: "",
-        photo: "",
-      },
+      newPerson: getPerson({}, true),
     };
   }),
 };
 
-export { people };
+export { people, getPerson, personSchema };

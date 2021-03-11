@@ -43,7 +43,7 @@ export const ViewExistedPersonWithoutPhoto = () => {
 
 export const NewPerson = () => {
   const store = setupStore();
-  store.getActions().people.newPerson();
+  store.getActions().people.startAdding();
   return (
     <StoreProvider store={store}>
       <Page />;
