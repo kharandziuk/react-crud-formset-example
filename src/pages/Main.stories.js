@@ -2,7 +2,7 @@ import React from "react";
 
 import Page from "./Main";
 import { setupStore } from "../store";
-import { createStore, StoreProvider } from "easy-peasy";
+import { StoreProvider } from "easy-peasy";
 import getPhotoByMax from "../getPhotoByMax";
 
 export default {

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { createStore, action, computed } from "easy-peasy";
+import { action, computed } from "easy-peasy";
 
 import Joi from "joi";
 import joiPhoneNumber from "joi-phone-number";
@@ -29,7 +29,6 @@ const getPerson = (values = {}, skipValidation = false) => {
     phohe: "",
     birth_year: null,
     email: "",
-    birth_year: "",
   });
   if (!skipValidation) {
     personSchema.assert(result);
