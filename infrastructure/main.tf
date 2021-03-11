@@ -53,7 +53,25 @@ resource "aws_s3_bucket" "frontend" {
   }
 }
 
+resource "aws_s3_bucket" "storybook" {
+  bucket = "${var.bucket_name}-storybook"
+  acl    = "public-read"
+
+  tags = {
+    Name        = var.bucket_name
+    Environment = "Dev"
+  }
+
+  website {
+    index_document = "index.html"
+  }
+}
+
+
+output "storybook-url" {
+  value = "http://${aws_s3_bucket.storybook.website_endpoint}"
+}
 
 output "url" {
-  value = aws_s3_bucket.frontend.website_endpoint
+  value = "http://${aws_s3_bucket.frontend.website_endpoint}"
 }
