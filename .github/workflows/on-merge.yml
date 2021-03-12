@@ -84,4 +84,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: "http://http://react-crud-formset-example.s3-website.eu-central-1.amazonaws.com/"
+          env_url: "http://react-crud-formset-example.s3-website.eu-central-1.amazonaws.com/"
